@@ -24,12 +24,12 @@ class Adwin(object):
            # last_bucket_row: the max number of merge
 
        def update(self, value):
-           self.__insert_element(value)
-           self.__compress_bucket()
-           return self.__check_drift()
+           self.insert_element(value)
+           self.compress_bucket()
+           return self.check_drift()
 
        # insert new bucket
-       def __insert_element(self, value):
+       def insert_element(self, value):
            self.width += 1
            self.list_bucket_row.head.add_bucket(float(value), 0.0)
            self.bucket_number += 1
@@ -40,7 +40,7 @@ class Adwin(object):
            self.sum += value
 
        # merge the two bucket to a new one
-       def __compress_bucket(self):
+       def compress_bucket(self):
            i = 0
            cursor = self.list_bucket_row.head
            next_node = None
@@ -75,7 +75,7 @@ class Adwin(object):
            return int(math.pow(2, row))
 
        # check whether the window change
-       def __check_drift(self):
+       def check_drift(self):
            change = False
            quit = False
            cursor = None
@@ -105,11 +105,11 @@ class Adwin(object):
                            u1 -= cursor.sum[k]
                            mintMinWinLength = 5
                            if n0 >= mintMinWinLength and n1 >= mintMinWinLength \
-                                   and self.__cut_expression(n0, n1, u0, u1):
+                                   and self.cut_expression(n0, n1, u0, u1):
                                reduce_width = True
                                change = True
                                if self.width > 0:
-                                   self.__delete_element()
+                                   self.delete_element()
                                    quit = True
                                    break
                        cursor = cursor.prev
@@ -119,7 +119,7 @@ class Adwin(object):
            return change
 
        # remove the bucket from the tail of window
-       def __delete_element(self):
+       def delete_element(self):
            node = self.list_bucket_row.tail
            delete_num = self.bucket_size(self.last_bucket_row)
            self.width -= delete_num
@@ -135,7 +135,7 @@ class Adwin(object):
                self.list_bucket_row.remove_from_tail()
                self.last_bucket_row -= 1
 
-       def __cut_expression(self, n0, n1, u0, u1):
+       def cut_expression(self, n0, n1, u0, u1):
            n0 = float(n0)
            n1 = float(n1)
            n = float(self.width)
