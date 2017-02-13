@@ -1,0 +1,6 @@
+*.pyc
+classifer/*.pyc
+drift_detector/*.pyc
+evaluation/*.pyc
+.idea/
+.ipynb_checkpoints/
